@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import MetricPickerDropdown from "./MetricPickerDropdown";
 
 export interface MetricItem {
@@ -36,6 +37,15 @@ export default function MetricsTabs({
         const isPositive = item.subValue?.startsWith("+") && item.subValue !== "+0%";
         const cleanSub = item.subValue?.replace(/^[+-]/, "");
 
+        // Compute alignment to guarantee ZERO page scroll-x on all viewports:
+        // - In 2-col (mobile/tablet): left items align left, right items align right
+        // - In 4-col (desktop): items 0 & 1 align left, items 2 & 3 align right
+        const isOdd = index % 2 === 1;
+        const isLgRight = index >= 2;
+        const alignClass = `${isOdd ? "right-0 left-auto" : "left-0 right-auto"} ${
+          isLgRight ? "lg:right-0 lg:left-auto" : "lg:left-0 lg:right-auto"
+        }`;
+
         return (
           <div key={`${item.id}-${index}`} className="relative">
             <button
@@ -56,15 +66,15 @@ export default function MetricsTabs({
                     e.stopPropagation();
                     setOpenDropdownIndex(isDropdownOpen ? null : index);
                   }}
-                  className="inline-flex items-center gap-1 text-xs font-normal text-neutral-500 hover:text-neutral-900 transition-colors py-0.5 px-1.5 -ml-1.5 rounded-lg hover:bg-neutral-100/70 select-none group"
-                  title="Click to change metric"
+                  className="inline-flex items-center gap-1.5 text-xs font-normal text-neutral-500 hover:text-neutral-900 transition-colors py-0.5 px-2 -ml-2 rounded-xl hover:bg-neutral-100/80 select-none group"
+                  title="Click to customize metric"
                 >
-                  <span className="font-medium text-neutral-600 group-hover:text-neutral-900">
+                  <span className="font-semibold text-neutral-700 group-hover:text-neutral-900">
                     {item.label}
                   </span>
                   <span
-                    className={`material-symbols-outlined text-[15px] text-neutral-400 group-hover:text-neutral-700 transition-transform duration-150 ${
-                      isDropdownOpen ? "rotate-180 text-neutral-800" : ""
+                    className={`material-symbols-outlined text-[16px] text-neutral-400 group-hover:text-neutral-800 transition-transform duration-200 ${
+                      isDropdownOpen ? "rotate-180 text-neutral-900" : ""
                     }`}
                   >
                     keyboard_arrow_down
@@ -108,17 +118,20 @@ export default function MetricsTabs({
               </div>
             </button>
 
-            {/* Metric Picker Dropdown */}
-            {isDropdownOpen && onSlotChange && (
-              <MetricPickerDropdown
-                currentMetricId={item.id}
-                onSelect={(newMetricId) => {
-                  onSlotChange(index, newMetricId);
-                  setOpenDropdownIndex(null);
-                }}
-                onClose={() => setOpenDropdownIndex(null)}
-              />
-            )}
+            {/* Animated Metric Picker Dropdown */}
+            <AnimatePresence>
+              {isDropdownOpen && onSlotChange && (
+                <MetricPickerDropdown
+                  currentMetricId={item.id}
+                  alignClass={alignClass}
+                  onSelect={(newMetricId) => {
+                    onSlotChange(index, newMetricId);
+                    setOpenDropdownIndex(null);
+                  }}
+                  onClose={() => setOpenDropdownIndex(null)}
+                />
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

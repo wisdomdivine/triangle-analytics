@@ -264,7 +264,7 @@ export default function OverviewPage() {
   };
 
   return (
-    <div className="flex flex-col gap-10 w-full">
+    <div className="flex flex-col gap-10 w-full max-w-full">
       {/* Top Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-neutral-900">
