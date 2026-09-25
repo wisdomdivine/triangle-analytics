@@ -260,6 +260,35 @@ export const api = {
       return authData;
     },
 
+    async signInWithGoogle(): Promise<AuthResponse> {
+      const { signInWithPopup } = await import("firebase/auth");
+      const { auth, googleProvider } = await import("@/lib/firebase");
+
+      const cred = await signInWithPopup(auth, googleProvider);
+      const idToken = await cred.user.getIdToken();
+      const email = cred.user.email;
+      const name = cred.user.displayName || email?.split("@")[0] || "User";
+
+      if (!email) {
+        throw new Error("Google account did not provide an email address.");
+      }
+
+      const response = await fetch(`${API_BASE_URL}/api/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken, email, name }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error((data as { error?: string })?.error || "Google sign-in failed");
+      }
+
+      const authData = data as AuthResponse;
+      setAuthSession(authData.token, authData.user);
+      return authData;
+    },
+
     async getMe(): Promise<{ user: User }> {
       return fetchWithAuth<{ user: User }>("/api/auth/me");
     },
