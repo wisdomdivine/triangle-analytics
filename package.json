@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy:firebase": "next build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.46.0",
