@@ -8,66 +8,73 @@ export default function Features() {
       step: "1. Real-time Telemetry",
       description:
         "Sub-second visitor session streams, multi-tab presence detection, 12s socket heartbeats, and instant offline drop beacons.",
-      ascii: `┌──────────────────────────────────────────────┐
-│ STREAM::LIVE // SOCKET.IO rx:12.4kb tx:1.8kb │
-├──────────────────────────────────────────────┤
-│ [12:54:02.108]  ACK  conn_id: #tab_9a8f      │
-│ [12:54:14.108]  HBT  heartbeat  ttl: 12s     │
-│ [12:54:26.109]  HBT  heartbeat  ttl: 12s     │
-│ [12:54:32.441]  EVT  pageview   path: /      │
-├──────────────────────────────────────────────┤
-│ 100% ┤     ┌┐        ┌┐        ┌┐       ┌┐   │
-│  75% ┤ ┌┐  ││  ┌┐ ┌┐ ││ ┌┐     ││ ┌┐ ┌┐ ││   │
-│  50% ┤ ││┌─┘└──┘│ ││┌┘│ ││┌┐   ││ ││ ││ ││   │
-│  25% ┤ │└┘      └─┘││ │ │└┘│   ││ │└─┘│ ││   │
-│   0% ┴─┴───────────┴┴─┴─┴──┴───┴┴─┴───┴─┴┴── │
-│      00:00   00:15   00:30   00:45   00:60s  │
-├──────────────────────────────────────────────┤
-│ STATUS: ACTIVE  │ PEERS: 1,482 │ LATENCY:<4ms│
-└──────────────────────────────────────────────┘`,
+      ascii: `.-==========================================-.
+|  ***  TRIANGLE TELEMETRY  ***  [NODE #01]  |
+|  BAUD: 28,800 V.34     CARRIER DETECT: OK  |
+|  MODEM: [HS] [AA] [CD] [OH] [RD] [SD] [TR] |
+|============================================|
+| RX STREAM >>> SOCKET.VXD [IRQ:04 PORT:23]  |
+|  [12:04] <ACK> CONNECTED TAB_SESSION_01    |
+|  [12:16] <HBT> HEARTBEAT 12s .......... OK |
+|  [12:28] <HBT> HEARTBEAT 12s .......... OK |
+|--------------------------------------------|
+| 100% |        /\\             _/\\       /\\  |
+|  75% |   /\\  /  \\   /\\      /   \\     /  \\ |
+|  50% | _/  \\/    \\_/  \\__/\\_   \\___/    \\  |
+|  25% | ::::::::::::::::::::::::::::::::::: |
+|   0% +------------------------------------ |
+|        00:00   00:15   00:30   00:45 00:60 |
+|============================================|
+| SYSOP: ONLINE | PEERS: 1,482 | PING: <4ms  |
+'-==========================================-'`,
     },
     {
       step: "2. Zero Cookies & Pure Privacy",
       description:
         "100% cookie-free and compliant with GDPR, CCPA, and PECR out of the box. No cookie consent banners or intrusive cross-site fingerprinting.",
-      ascii: `┌──────────────────────────────────────────────┐
-│ PRIVACY_ENGINE::GDPR // COOKIE_FREE: TRUE    │
-├──────────────────────────────────────────────┤
-│ [INGRESS_PAYLOAD]                            │
-│   IP: 198.51.100.42 ────┐                    │
-│   UA: Mozilla/5.0... ───┼─► [SHA-256 SALT]   │
-│   SITE: tri_819416  ────┘         │          │
-│                                   ▼          │
-│ [VISITOR_HASH]: 7f83b1657ff1fc53b92dc18148a  │
-├──────────────────────────────────────────────┤
-│  .------------. .------------. .-----------. │
-│  | NO COOKIES | | 1-WAY HASH | | ZERO PII  | │
-│  | [✓] ACTIVE | | [✓] SALTED | | [✓] CLEAN | │
-│  '------------' '------------' '-----------' │
-├──────────────────────────────────────────────┤
-│ STORAGE: RAM   │ RETENTION: 24h│ COMPLIANT:✓ │
-└──────────────────────────────────────────────┘`,
+      ascii: `.-==========================================-.
+|  ***  ZERO-COOKIE CYPHER-GATE v2.1  ***    |
+|  SECURITY: MAXIMUM  //  PGP-2.6 PRIVACY    |
+|============================================|
+| [INCOMING HTTP STREAM]                     |
+|  IP ADDRESS  : 198.51.100.42 -> [SCRUBBED] |
+|  USER AGENT  : Netscape/3.0  -> [DISCARD]  |
+|  COOKIE.TXT  : 0 BYTES WRITTEN [DISABLED]  |
+|--------------------------------------------|
+|         .-----.     CRYPTO ENGINE: SHA-256 |
+|        / .---. \\    ---------------------- |
+|       | |     | |   * ZERO TRACKING BANNER |
+|       | '-----' |   * 1-WAY ROTATING SALT  |
+|      [===========]  * NO CROSS-SITE TRACE  |
+|      |  [#] PGP  |  * RAM BUFFER ONLY (24H)|
+|      [===========]  * 100% GDPR / PECR OK  |
+|============================================|
+| ANONYMIZER: ACTIVE | STORAGE: VOLATILE RAM |
+'-==========================================-'`,
     },
     {
       step: "3. Auto-Tracked Goals",
       description:
         "Automatically captures button clicks, outbound links, and scroll depth milestones (25%, 50%, 75%, 90%) without manual code configuration.",
-      ascii: `┌──────────────────────────────────────────────┐
-│ AUTO_GOALS::PIPELINE // ZERO CONFIG ENGINE   │
-├──────────────────────────────────────────────┤
-│ MILESTONES             STATUS   TRIGGERED    │
-│  25% SCROLL DEPTH   [████████]    94.2%      │
-│  50% SCROLL DEPTH   [██████░░]    78.6%      │
-│  75% SCROLL DEPTH   [████░░░░]    52.1%      │
-│  90% SCROLL DEPTH   [██░░░░░░]    36.4%      │
-├──────────────────────────────────────────────┤
-│ AUTO-DISPATCHED EVENTS:                      │
-│  ► click           button#cta-primary (1.2k) │
-│  ► outbound_click  github.com/...     (382)  │
-│  ► screen_resize   1920x1080 -> 1440   (94)  │
-├──────────────────────────────────────────────┤
-│ DISPATCH: BEACON│ DROPPED: 0%  │ LATENCY:0ms │
-└──────────────────────────────────────────────┘`,
+      ascii: `.-==========================================-.
+|  ***  AUTO-GOALS DISPATCHER v3.11  ***     |
+|  SUBSYSTEM: INT 21h  //  AUTODETECT: ARMED |
+|============================================|
+| [SCROLL MILESTONE DAEMON]     PROGRESS STAT|
+|  25% DEPTH  [================>] 100%  OK   |
+|  50% DEPTH  [============>...]  78%   OK   |
+|  75% DEPTH  [========>.......]  52%   OK   |
+|  90% DEPTH  [====>...........]  36%   OK   |
+|--------------------------------------------|
+| [AUTO-CAPTURED HARDWARE & BROWSER EVENTS]  |
+|  > MOUSE_LBTN  : BTN#CTA_PRIMARY (1,240)   |
+|  > URL_REDIRECT: GITHUB.COM/REPO   (382)   |
+|  > SVGA_RESIZE : 800x600->1024x768  (94)   |
+|  > FORM_SUBMIT : /SIGNUP [INSTANT] (218)   |
+|--------------------------------------------|
+| DISPATCH: BEACON.COM  IRQ: 03  BUFF: 64 KB |
+| CONFIG: ZERO-SETUP | DROP: 0% | STATUS: OK |
+'-==========================================-'`,
     },
   ];
 
