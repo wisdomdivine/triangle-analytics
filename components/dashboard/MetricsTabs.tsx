@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { IconInfoCircle } from "@tabler/icons-react";
 import MetricPickerDropdown from "./MetricPickerDropdown";
 
 export interface MetricItem {
@@ -10,6 +11,23 @@ export interface MetricItem {
   value: string;
   subValue?: string;
 }
+
+const METRIC_EXPLANATIONS: Record<string, string> = {
+  visitors:
+    "The number of unique people who visited your website. Even if someone visits multiple times, they are only counted once.",
+  newUsers:
+    "People visiting your website for the very first time. They have never visited your site before this time period.",
+  returningUsers:
+    "People who visited your site previously and came back again. A high number shows that people find your site useful.",
+  pageviews:
+    "The total number of times pages on your site were viewed. If one person views five pages, that counts as five page views.",
+  bouncerate:
+    "The percentage of visitors who left after viewing only one page without clicking anything. A lower percentage is generally better.",
+  events:
+    "The total number of actions people took on your site, such as clicking buttons, submitting forms, or scrolling down pages.",
+  activeVisitors:
+    "The number of people currently browsing your website right now in real time.",
+};
 
 interface MetricsTabsProps {
   metrics: MetricItem[];
@@ -25,6 +43,7 @@ export default function MetricsTabs({
   onSlotChange,
 }: MetricsTabsProps) {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
+  const [hoveredInfoIndex, setHoveredInfoIndex] = useState<number | null>(null);
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
@@ -57,28 +76,71 @@ export default function MetricsTabs({
                   : "bg-white/60 hover:bg-white text-neutral-600"
               }`}
             >
-              {/* Header with Dropdown Trigger */}
-              <div className="w-full flex items-center justify-between">
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenDropdownIndex(isDropdownOpen ? null : index);
-                  }}
-                  className="inline-flex items-center gap-1.5 text-xs font-normal text-neutral-500 hover:text-neutral-900 transition-colors py-0.5 px-2 -ml-2 rounded-xl hover:bg-neutral-100/80 select-none group"
-                  title="Click to customize metric"
-                >
-                  <span className="font-semibold text-neutral-700 group-hover:text-neutral-900">
-                    {item.label}
-                  </span>
-                  <span
-                    className={`material-symbols-outlined text-[16px] text-neutral-400 group-hover:text-neutral-800 transition-transform duration-200 ${
-                      isDropdownOpen ? "rotate-180 text-neutral-900" : ""
-                    }`}
+              {/* Header with Dropdown Trigger and Info Tooltip */}
+              <div className="w-full flex items-center justify-between gap-1.5">
+                <div className="flex items-center gap-1 min-w-0">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenDropdownIndex(isDropdownOpen ? null : index);
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs font-normal text-neutral-500 hover:text-neutral-900 transition-colors py-0.5 px-2 -ml-2 rounded-xl hover:bg-neutral-100/80 select-none group"
+                    title="Click to customize metric"
                   >
-                    keyboard_arrow_down
-                  </span>
+                    <span className="font-semibold text-neutral-700 group-hover:text-neutral-900 truncate">
+                      {item.label}
+                    </span>
+                    <span
+                      className={`material-symbols-outlined text-[16px] text-neutral-400 group-hover:text-neutral-800 transition-transform duration-200 shrink-0 ${
+                        isDropdownOpen ? "rotate-180 text-neutral-900" : ""
+                      }`}
+                    >
+                      keyboard_arrow_down
+                    </span>
+                  </div>
+
+                  {/* Info Icon with plain language tooltip */}
+                  <div
+                    className="relative inline-flex items-center shrink-0"
+                    onMouseEnter={() => setHoveredInfoIndex(index)}
+                    onMouseLeave={() => setHoveredInfoIndex(null)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      aria-label={`About ${item.label}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setHoveredInfoIndex(hoveredInfoIndex === index ? null : index);
+                      }}
+                      className="text-neutral-400 hover:text-neutral-700 transition-colors p-0.5 rounded-full flex items-center justify-center cursor-pointer"
+                    >
+                      <IconInfoCircle size={14} stroke={1.8} />
+                    </button>
+
+                    <AnimatePresence>
+                      {hoveredInfoIndex === index && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 4, scale: 0.96 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 2, scale: 0.96 }}
+                          transition={{ duration: 0.15, ease: "easeOut" }}
+                          className={`absolute z-30 bottom-full mb-2 ${
+                            index >= 2 ? "right-0" : "left-0"
+                          } w-60 p-3 bg-neutral-900 text-white rounded-xl border-0 shadow-none pointer-events-none select-none`}
+                        >
+                          <p className="font-medium text-xs text-neutral-100 mb-1">
+                            {item.label}
+                          </p>
+                          <p className="text-[11px] text-neutral-300 font-normal leading-relaxed">
+                            {METRIC_EXPLANATIONS[item.id] || "Website performance metric."}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
 
                 {isActive && (
