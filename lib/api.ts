@@ -385,6 +385,12 @@ export const api = {
       );
     },
 
+    async getFlagsSummary(siteId: string, period = "7d"): Promise<{ Flags: DimensionItem[]; Variants?: DimensionItem[] }> {
+      return fetchWithAuth<{ Flags: DimensionItem[]; Variants?: DimensionItem[] }>(
+        `/api/dash/overview/flags?site_id=${siteId}&period=${period}`
+      );
+    },
+
     async getRealtimeActive(siteId: string): Promise<{ activeVisitors: number }> {
       return fetchWithAuth<{ activeVisitors: number }>(`/api/dash/overview/realtime?site_id=${siteId}`);
     },

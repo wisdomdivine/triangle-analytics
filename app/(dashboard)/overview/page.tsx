@@ -86,6 +86,10 @@ export default function OverviewPage() {
   });
   const [osData, setOsData] = useState<{ "Operating Systems": DimensionItem[] }>({ "Operating Systems": [] });
   const [eventsData, setEventsData] = useState<{ Events: DimensionItem[] }>({ Events: [] });
+  const [flagsData, setFlagsData] = useState<{ Flags: DimensionItem[]; Variants?: DimensionItem[] }>({
+    Flags: [],
+    Variants: [],
+  });
   const [isDataLoading, setIsDataLoading] = useState(false);
 
   useEffect(() => {
@@ -106,7 +110,8 @@ export default function OverviewPage() {
       api.dash.getTopDevices(siteId, period).catch(() => ({ Devices: [], Models: [], Browsers: [] })),
       api.dash.getTopOS(siteId, period).catch(() => ({ "Operating Systems": [] })),
       api.dash.getEventsSummary(siteId, period).catch(() => ({ Events: [] })),
-    ]).then(([statsRes, tsRes, pagesRes, refRes, countRes, devRes, osRes, evRes]) => {
+      api.dash.getFlagsSummary(siteId, period).catch(() => ({ Flags: [], Variants: [] })),
+    ]).then(([statsRes, tsRes, pagesRes, refRes, countRes, devRes, osRes, evRes, flagsRes]) => {
       if (!isMounted) return;
       if (statsRes) setStats(statsRes);
       if (Array.isArray(tsRes)) setTimeseries(tsRes);
@@ -116,6 +121,7 @@ export default function OverviewPage() {
       if (devRes) setDevicesData(devRes);
       if (osRes) setOsData(osRes);
       if (evRes) setEventsData(evRes);
+      if (flagsRes) setFlagsData(flagsRes);
       setIsDataLoading(false);
     });
 
@@ -259,10 +265,6 @@ export default function OverviewPage() {
     ? Math.min(100, Math.max(baseDesktop, Math.round(baseDesktop * 0.7 + interactionDepth + Math.min(15, totalEvents * 1.2))))
     : baseDesktop;
 
-  const flagsData = {
-    Flags: [],
-  };
-
   return (
     <div className="flex flex-col gap-10 w-full max-w-full">
       {/* Top Header Controls */}
@@ -353,10 +355,12 @@ export default function OverviewPage() {
         <BreakdownList
           tabs={["Events"]}
           data={eventsData}
+          columns={["VISITORS", "TOTAL"]}
         />
         <BreakdownList
-          tabs={["Flags"]}
+          tabs={["Flags", "Variants"]}
           data={flagsData}
+          columns={["VISITORS", "TOTAL"]}
         />
       </div>
     </div>

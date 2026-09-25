@@ -9,7 +9,7 @@ const outfit = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://the-triangle-analytics.web.app"),
   title: {
-    default: "Triangle Analytics — Lightweight, Privacy-Friendly Web Telemetry",
+    default: "Triangle Analytics - Lightweight, Privacy-Friendly Web Telemetry",
     template: "%s | Triangle Analytics",
   },
   description: "Lightweight, privacy-friendly web analytics platform providing real-time telemetry, session streams, and automated conversion tracking without cookies.",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "https://the-triangle-analytics.web.app/",
   },
   openGraph: {
-    title: "Triangle Analytics — Lightweight, Privacy-Friendly Web Telemetry",
+    title: "Triangle Analytics - Lightweight, Privacy-Friendly Web Telemetry",
     description: "Lightweight, privacy-friendly web analytics platform providing real-time telemetry, session streams, and automated conversion tracking without cookies.",
     url: "https://the-triangle-analytics.web.app/",
     siteName: "Triangle Analytics",

@@ -19,7 +19,7 @@ export default function CountryFlag({
   const code = rawCode && rawCode in Flags ? (rawCode as keyof typeof Flags) : null;
 
   if (!code) {
-    // Clean neutral fallback — never defaults to US
+    // Clean neutral fallback - never defaults to US
     return (
       <span
         className={`${className} bg-neutral-200/80 rounded-[2px] inline-flex items-center justify-center text-[8px] text-neutral-500 font-mono select-none`}
