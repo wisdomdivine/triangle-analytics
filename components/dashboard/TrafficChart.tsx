@@ -14,6 +14,8 @@ interface TrafficChartProps {
   data: {
     date: string;
     visitors: number;
+    newUsers?: number;
+    returningUsers?: number;
     pageViews?: number;
     pageviews?: number;
     bounceRate: number;
@@ -23,6 +25,8 @@ interface TrafficChartProps {
 
 export default function TrafficChart({ data, activeMetric }: TrafficChartProps) {
   const getMetricKey = () => {
+    if (activeMetric === "newUsers" || activeMetric === "new_users") return "newUsers";
+    if (activeMetric === "returningUsers" || activeMetric === "returning_users") return "returningUsers";
     if (activeMetric === "pageviews" || activeMetric === "pageViews") return "pageViews";
     if (activeMetric === "bouncerate" || activeMetric === "bounceRate") return "bounceRate";
     return "visitors";

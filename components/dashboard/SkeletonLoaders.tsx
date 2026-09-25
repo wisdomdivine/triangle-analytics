@@ -13,16 +13,16 @@ export function OverviewSkeleton() {
       </div>
 
       {/* Metric Tabs */}
-      <div className="flex items-center gap-3 sm:gap-4 w-full overflow-hidden pb-1">
-        {[1, 2, 3].map((i) => (
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 w-full">
+        {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className="flex flex-col p-4 sm:p-6 rounded-2xl min-w-[140px] sm:min-w-[180px] flex-1 bg-white gap-3"
+            className="flex flex-col justify-between p-5 sm:p-6 rounded-2xl min-h-[120px] bg-white gap-3"
           >
-            <div className="h-3 w-16 bg-neutral-200/70 rounded-md" />
-            <div className="flex items-baseline gap-3 mt-1">
-              <div className="h-8 w-20 bg-neutral-200/90 rounded-lg" />
-              <div className="h-4 w-10 bg-neutral-200/60 rounded-md" />
+            <div className="h-3 w-20 bg-neutral-200/70 rounded-md" />
+            <div className="flex items-baseline gap-3 mt-2">
+              <div className="h-8 w-24 bg-neutral-200/90 rounded-lg" />
+              <div className="h-4 w-12 bg-neutral-200/60 rounded-md" />
             </div>
             {i === 1 && <div className="w-8 h-0.5 bg-neutral-300 rounded-full mt-2" />}
           </div>

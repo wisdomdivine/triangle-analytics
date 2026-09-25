@@ -125,9 +125,21 @@ export default function OverviewPage() {
   const metrics = [
     {
       id: "visitors",
-      label: "Visitors",
+      label: "Total Visitors",
       value: stats?.visitors || currentDomain.visitors || "0",
       subValue: stats?.changes?.visitors || "+0%",
+    },
+    {
+      id: "newUsers",
+      label: "New Users",
+      value: stats?.newUsers || "0",
+      subValue: stats?.changes?.newUsers || "+0%",
+    },
+    {
+      id: "returningUsers",
+      label: "Returning Users",
+      value: stats?.returningUsers || "0",
+      subValue: stats?.changes?.returningUsers || "+0%",
     },
     {
       id: "pageviews",
@@ -151,19 +163,21 @@ export default function OverviewPage() {
           return {
             date: pt.date,
             visitors: Number(pt.visitors) || 0,
+            newUsers: Number(pt.newUsers) || 0,
+            returningUsers: Number(pt.returningUsers) || 0,
             pageViews: views,
             pageviews: views,
             bounceRate: Number(pt.bounceRate ?? 0),
           };
         })
       : [
-          { date: "Mon", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Tue", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Wed", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Thu", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Fri", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Sat", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
-          { date: "Sun", visitors: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Mon", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Tue", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Wed", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Thu", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Fri", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Sat", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
+          { date: "Sun", visitors: 0, newUsers: 0, returningUsers: 0, pageViews: 0, pageviews: 0, bounceRate: 0 },
         ];
 
   // Dynamic segment metrics based on telemetry data & active interaction events

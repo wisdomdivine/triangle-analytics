@@ -35,10 +35,14 @@ export interface SiteItem {
 
 export interface OverviewStats {
   visitors: string;
+  newUsers?: string;
+  returningUsers?: string;
   pageViews: string;
   bounceRate: string;
   changes: {
     visitors: string;
+    newUsers?: string;
+    returningUsers?: string;
     pageViews: string;
     bounceRate: string;
   };
@@ -47,6 +51,8 @@ export interface OverviewStats {
 export interface TimeseriesPoint {
   date: string;
   visitors: number;
+  newUsers?: number;
+  returningUsers?: number;
   pageViews?: number;
   pageviews?: number;
   bounceRate?: number;
