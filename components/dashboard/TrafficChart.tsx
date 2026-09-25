@@ -29,13 +29,15 @@ export default function TrafficChart({ data, activeMetric }: TrafficChartProps) 
     if (activeMetric === "returningUsers" || activeMetric === "returning_users") return "returningUsers";
     if (activeMetric === "pageviews" || activeMetric === "pageViews") return "pageViews";
     if (activeMetric === "bouncerate" || activeMetric === "bounceRate") return "bounceRate";
+    if (activeMetric === "events") return "events";
+    if (activeMetric === "activeVisitors") return "activeVisitors";
     return "visitors";
   };
 
   const metricKey = getMetricKey();
 
   return (
-    <div className="w-full bg-white rounded-3xl p-4 sm:p-8 flex flex-col gap-6">
+    <div className="w-full bg-white rounded-3xl p-4 sm:p-8 flex flex-col gap-6 border-0 shadow-none">
       <div className="w-full h-56 sm:h-72">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -69,7 +71,7 @@ export default function TrafficChart({ data, activeMetric }: TrafficChartProps) 
                   const isRate = activeMetric === "bouncerate" || activeMetric === "bounceRate";
                   const formatted = isRate ? `${val}%` : Number(val).toLocaleString();
                   return (
-                    <div className="bg-neutral-900 text-white px-3.5 py-2 rounded-xl text-xs font-light border border-neutral-800">
+                    <div className="bg-neutral-900 text-white px-3.5 py-2 rounded-xl text-xs font-light border-0 shadow-none">
                       <span className="text-neutral-400 block mb-0.5">{label}</span>
                       <span className="font-normal text-sm">{formatted}</span>
                     </div>
