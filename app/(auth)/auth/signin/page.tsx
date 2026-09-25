@@ -25,7 +25,11 @@ export default function SignInPage() {
       await api.auth.signIn(email, password);
       const searchParams = new URLSearchParams(window.location.search);
       const redirectUrl = searchParams.get("redirect") || "/overview";
-      router.push(redirectUrl);
+      if (redirectUrl.startsWith("http")) {
+        window.location.href = redirectUrl;
+      } else {
+        router.push(redirectUrl);
+      }
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || "Sign in failed. Please check your credentials.");
     } finally {
@@ -40,7 +44,11 @@ export default function SignInPage() {
       await api.auth.signInWithGoogle();
       const searchParams = new URLSearchParams(window.location.search);
       const redirectUrl = searchParams.get("redirect") || "/overview";
-      router.push(redirectUrl);
+      if (redirectUrl.startsWith("http")) {
+        window.location.href = redirectUrl;
+      } else {
+        router.push(redirectUrl);
+      }
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || "Google sign-in failed. Please try again.");
     } finally {
@@ -222,6 +230,23 @@ export default function SignInPage() {
               >
                 Sign up
               </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.42, duration: 0.45 }}
+              className="text-center text-[11px] text-[#8E8D8A] mt-1"
+            >
+              By signing in, you agree to our{" "}
+              <Link href="/terms" className="underline hover:text-[#1E1E1C] transition-colors">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="underline hover:text-[#1E1E1C] transition-colors">
+                Privacy Policy
+              </Link>
+              .
             </motion.div>
           </div>
         </div>

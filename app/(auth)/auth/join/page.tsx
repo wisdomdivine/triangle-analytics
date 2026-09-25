@@ -24,7 +24,13 @@ export default function JoinPage() {
 
     try {
       await api.auth.signUp(name, email, password);
-      router.push("/auth/claim-onboarding");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectUrl = searchParams.get("redirect") || "/auth/claim-onboarding";
+      if (redirectUrl.startsWith("http")) {
+        window.location.href = redirectUrl;
+      } else {
+        router.push(redirectUrl);
+      }
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || "Registration failed. Please try again.");
     } finally {
@@ -37,7 +43,13 @@ export default function JoinPage() {
     setIsGoogleLoading(true);
     try {
       await api.auth.signInWithGoogle();
-      router.push("/auth/claim-onboarding");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectUrl = searchParams.get("redirect") || "/auth/claim-onboarding";
+      if (redirectUrl.startsWith("http")) {
+        window.location.href = redirectUrl;
+      } else {
+        router.push(redirectUrl);
+      }
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || "Google sign-up failed. Please try again.");
     } finally {
@@ -221,6 +233,23 @@ export default function JoinPage() {
               >
                 Sign in
               </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.42, duration: 0.45 }}
+              className="text-center text-[11px] text-[#8E8D8A] mt-1"
+            >
+              By creating an account, you agree to our{" "}
+              <Link href="/terms" className="underline hover:text-[#1E1E1C] transition-colors">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="underline hover:text-[#1E1E1C] transition-colors">
+                Privacy Policy
+              </Link>
+              .
             </motion.div>
           </div>
         </div>

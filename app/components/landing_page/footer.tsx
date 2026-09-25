@@ -58,10 +58,10 @@ export default function Footer() {
             Legal & Privacy
           </span>
           <div className="flex flex-col gap-2">
-            <Link href="#features" className="text-xs text-[#3A3935] hover:text-[#1E1E1C] transition-colors w-max">
+            <Link href="/privacy" className="text-xs text-[#3A3935] hover:text-[#1E1E1C] transition-colors w-max">
               Privacy Policy (100% Cookieless)
             </Link>
-            <Link href="#features" className="text-xs text-[#3A3935] hover:text-[#1E1E1C] transition-colors w-max">
+            <Link href="/terms" className="text-xs text-[#3A3935] hover:text-[#1E1E1C] transition-colors w-max">
               Terms of Service
             </Link>
             <Link href="#features" className="text-xs text-[#3A3935] hover:text-[#1E1E1C] transition-colors w-max">
