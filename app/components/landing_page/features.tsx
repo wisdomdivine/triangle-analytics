@@ -9,7 +9,7 @@ export default function Features() {
       description:
         "Sub-second visitor session streams, multi-tab presence detection, 12s socket heartbeats, and instant offline drop beacons.",
       ascii: `┌──────────────────────────────────────────────┐
-│ STREAM::LIVE // SOCKET.IO   rx:12.4kb tx:1.8kb │
+│ STREAM::LIVE // SOCKET.IO rx:12.4kb tx:1.8kb │
 ├──────────────────────────────────────────────┤
 │ [12:54:02.108]  ACK  conn_id: #tab_9a8f      │
 │ [12:54:14.108]  HBT  heartbeat  ttl: 12s     │
