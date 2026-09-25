@@ -304,16 +304,22 @@ export default function OverviewPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
         <SegmentProgress
           percentage={nonDropoffRate}
+          title="Entry Route Retention"
+          tooltip="The percentage of visitors who land on your main pages and continue browsing your website instead of leaving immediately."
           description="Traffic concentration on primary entry routes without navigation dropoff"
           gradient="from-amber-400 to-rose-400"
         />
         <SegmentProgress
           percentage={activeInboundRate}
+          title="Organic and Referral Inbound"
+          tooltip="The share of your visitors coming directly from search engines like Google and links on other websites, rather than direct visits."
           description="Inbound traffic sessions originating directly from organic search and referrals"
           gradient="from-yellow-400 to-teal-400"
         />
         <SegmentProgress
           percentage={telemetryConversionRate}
+          title="Active Desktop Telemetry"
+          tooltip="The portion of desktop and laptop visitors actively using and interacting with features on your website rather than just passively loading a page."
           description="Desktop and workstation sessions converting into active platform telemetry"
           gradient="from-sky-400 to-emerald-400"
         />
