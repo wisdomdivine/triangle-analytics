@@ -58,6 +58,17 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#FAF8F5] text-[#1E1E1C] flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Top Left Floating Back Navigation */}
+      <Link
+        href="/"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-20 inline-flex items-center gap-1.5 text-xs font-semibold text-[#5E5D59] hover:text-[#1E1E1C] bg-white/80 hover:bg-white backdrop-blur-md px-3.5 py-2 rounded-full border border-[#EAE5D9] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.03)] group"
+      >
+        <span className="material-symbols-outlined text-[16px] transition-transform duration-150 group-hover:-translate-x-0.5">
+          arrow_back
+        </span>
+        <span>Back to home</span>
+      </Link>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -79,6 +90,30 @@ export default function SignInPage() {
 
         <div className="md:w-1/2 flex flex-col justify-center px-4 py-6 md:px-8 relative">
           <div className="w-full max-w-[360px] mx-auto flex flex-col gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.08, duration: 0.45 }}
+              className="flex items-center justify-between"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined" && window.history.length > 2) {
+                    router.back();
+                  } else {
+                    router.push("/");
+                  }
+                }}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#8E8D8A] hover:text-[#1E1E1C] transition-colors cursor-pointer group py-1 px-1.5 -ml-1.5 rounded-lg hover:bg-neutral-100"
+              >
+                <span className="material-symbols-outlined text-[16px] transition-transform duration-150 group-hover:-translate-x-0.5">
+                  arrow_back
+                </span>
+                <span>Back</span>
+              </button>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
