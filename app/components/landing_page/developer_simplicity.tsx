@@ -11,7 +11,7 @@ export default function DeveloperSimplicity() {
     "HTML Script": `<!-- Place in the <head> of your website -->
 <script
   defer
-  src="https://triangle-analytics.vercel.app/tracker.js"
+  src="https://the-triangle-analytics.web.app/tracker.js"
   data-site-id="tri_YOUR_SITE_ID"
 ></script>`,
     "Next.js App Router": `// app/layout.tsx
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <Script
           defer
-          src="https://triangle-analytics.vercel.app/tracker.js"
+          src="https://the-triangle-analytics.web.app/tracker.js"
           data-site-id="tri_YOUR_SITE_ID"
         />
       </head>
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 <head>
   <script
     defer
-    src="https://triangle-analytics.vercel.app/tracker.js"
+    src="https://the-triangle-analytics.web.app/tracker.js"
     data-site-id="tri_YOUR_SITE_ID"
   ></script>
 </head>

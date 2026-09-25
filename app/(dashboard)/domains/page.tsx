@@ -35,7 +35,7 @@ export default function DomainsPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleCopyScript = (siteId: string, id: string) => {
-    const code = `<script defer src="https://triangle-analytics.vercel.app/tracker.js" data-site-id="${siteId}"></script>`;
+    const code = `<script defer src="https://the-triangle-analytics.web.app/tracker.js" data-site-id="${siteId}"></script>`;
     navigator.clipboard.writeText(code);
     setCopiedId(id);
     setTimeout(() => {
@@ -320,7 +320,7 @@ export default function DomainsPage() {
 
                 <div className="bg-[#FAF8F5] p-3 sm:p-5 rounded-2xl overflow-x-auto max-w-full">
                   <code className="text-xs font-mono text-neutral-800 whitespace-nowrap">
-                    {`<script defer src="https://triangle-analytics.vercel.app/tracker.js" data-site-id="${dom.siteId}"></script>`}
+                    {`<script defer src="https://the-triangle-analytics.web.app/tracker.js" data-site-id="${dom.siteId}"></script>`}
                   </code>
                 </div>
 

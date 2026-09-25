@@ -103,7 +103,7 @@ export default function ProfilePage() {
   }));
 
   const scriptSnippet = currentDomain
-    ? `<script defer src="https://triangle-analytics.vercel.app/tracker.js" data-site-id="${currentDomain.siteId}"></script>`
+    ? `<script defer src="https://the-triangle-analytics.web.app/tracker.js" data-site-id="${currentDomain.siteId}"></script>`
     : "<!-- Connect a domain property first to generate your tracking snippet -->";
 
   return (

@@ -48,7 +48,7 @@ export default function ClaimOnboardingPage() {
 
   const handleCopy = () => {
     if (!createdSite?.siteId) return;
-    const snippet = `<script defer src="https://triangle-analytics.vercel.app/tracker.js" data-site-id="${createdSite.siteId}"></script>`;
+    const snippet = `<script defer src="https://the-triangle-analytics.web.app/tracker.js" data-site-id="${createdSite.siteId}"></script>`;
     navigator.clipboard.writeText(snippet);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -225,7 +225,7 @@ export default function ClaimOnboardingPage() {
 
               <div className="bg-[#FAF8F5] border border-[#EAE5D9] p-5 rounded-2xl overflow-x-auto">
                 <code className="text-xs font-mono text-neutral-800 whitespace-nowrap select-all">
-                  {`<script defer src="https://triangle-analytics.vercel.app/tracker.js" data-site-id="${createdSite.siteId}"></script>`}
+                  {`<script defer src="https://the-triangle-analytics.web.app/tracker.js" data-site-id="${createdSite.siteId}"></script>`}
                 </code>
               </div>
             </div>
