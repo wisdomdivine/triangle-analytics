@@ -8,16 +8,66 @@ export default function Features() {
       step: "1. Real-time Telemetry",
       description:
         "Sub-second visitor session streams, multi-tab presence detection, 12s socket heartbeats, and instant offline drop beacons.",
+      ascii: `┌──────────────────────────────────────────────┐
+│ STREAM::LIVE // SOCKET.IO   rx:12.4kb tx:1.8kb │
+├──────────────────────────────────────────────┤
+│ [12:54:02.108]  ACK  conn_id: #tab_9a8f      │
+│ [12:54:14.108]  HBT  heartbeat  ttl: 12s     │
+│ [12:54:26.109]  HBT  heartbeat  ttl: 12s     │
+│ [12:54:32.441]  EVT  pageview   path: /      │
+├──────────────────────────────────────────────┤
+│ 100% ┤     ┌┐        ┌┐        ┌┐       ┌┐   │
+│  75% ┤ ┌┐  ││  ┌┐ ┌┐ ││ ┌┐     ││ ┌┐ ┌┐ ││   │
+│  50% ┤ ││┌─┘└──┘│ ││┌┘│ ││┌┐   ││ ││ ││ ││   │
+│  25% ┤ │└┘      └─┘││ │ │└┘│   ││ │└─┘│ ││   │
+│   0% ┴─┴───────────┴┴─┴─┴──┴───┴┴─┴───┴─┴┴── │
+│      00:00   00:15   00:30   00:45   00:60s  │
+├──────────────────────────────────────────────┤
+│ STATUS: ACTIVE  │ PEERS: 1,482 │ LATENCY:<4ms│
+└──────────────────────────────────────────────┘`,
     },
     {
       step: "2. Zero Cookies & Pure Privacy",
       description:
         "100% cookie-free and compliant with GDPR, CCPA, and PECR out of the box. No cookie consent banners or intrusive cross-site fingerprinting.",
+      ascii: `┌──────────────────────────────────────────────┐
+│ PRIVACY_ENGINE::GDPR // COOKIE_FREE: TRUE    │
+├──────────────────────────────────────────────┤
+│ [INGRESS_PAYLOAD]                            │
+│   IP: 198.51.100.42 ────┐                    │
+│   UA: Mozilla/5.0... ───┼─► [SHA-256 SALT]   │
+│   SITE: tri_819416  ────┘         │          │
+│                                   ▼          │
+│ [VISITOR_HASH]: 7f83b1657ff1fc53b92dc18148a  │
+├──────────────────────────────────────────────┤
+│  .------------. .------------. .-----------. │
+│  | NO COOKIES | | 1-WAY HASH | | ZERO PII  | │
+│  | [✓] ACTIVE | | [✓] SALTED | | [✓] CLEAN | │
+│  '------------' '------------' '-----------' │
+├──────────────────────────────────────────────┤
+│ STORAGE: RAM   │ RETENTION: 24h│ COMPLIANT:✓ │
+└──────────────────────────────────────────────┘`,
     },
     {
       step: "3. Auto-Tracked Goals",
       description:
         "Automatically captures button clicks, outbound links, and scroll depth milestones (25%, 50%, 75%, 90%) without manual code configuration.",
+      ascii: `┌──────────────────────────────────────────────┐
+│ AUTO_GOALS::PIPELINE // ZERO CONFIG ENGINE   │
+├──────────────────────────────────────────────┤
+│ MILESTONES             STATUS   TRIGGERED    │
+│  25% SCROLL DEPTH   [████████]    94.2%      │
+│  50% SCROLL DEPTH   [██████░░]    78.6%      │
+│  75% SCROLL DEPTH   [████░░░░]    52.1%      │
+│  90% SCROLL DEPTH   [██░░░░░░]    36.4%      │
+├──────────────────────────────────────────────┤
+│ AUTO-DISPATCHED EVENTS:                      │
+│  ► click           button#cta-primary (1.2k) │
+│  ► outbound_click  github.com/...     (382)  │
+│  ► screen_resize   1920x1080 -> 1440   (94)  │
+├──────────────────────────────────────────────┤
+│ DISPATCH: BEACON│ DROPPED: 0%  │ LATENCY:0ms │
+└──────────────────────────────────────────────┘`,
     },
   ];
 
@@ -52,7 +102,11 @@ export default function Features() {
               transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.2 }}
               className="flex flex-col gap-6"
             >
-              <div className="w-full h-64 sm:h-72 bg-white rounded-3xl" />
+              <div className="w-full h-64 sm:h-72 bg-white rounded-3xl p-4 sm:p-5 flex items-center justify-center overflow-hidden select-none">
+                <pre className="font-mono text-[9px] sm:text-[10px] md:text-[11px] leading-tight text-[#1E1E1C]/80 whitespace-pre">
+                  {item.ascii}
+                </pre>
+              </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-lg font-medium text-[#1E1E1C]">
                   {item.step}
