@@ -27,7 +27,7 @@ export default function Footer() {
             </span>
           </div>
           <p className="text-xs text-[#3A3935] leading-relaxed max-w-xs">
-            The lightweight, privacy-first web analytics platform providing real-time telemetry, session streams, and automated conversion tracking.
+            The lightweight privacy first web analytics platform providing real time telemetry, session streams, and automated conversion tracking.
           </p>
         </div>
 
