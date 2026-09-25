@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { IconMenu2, IconX, IconBrandGithub } from "@tabler/icons-react";
-import { getAuthToken, getStoredUser, clearAuthSession, api, User } from "@/lib/api";
+import { getAuthToken, getStoredUser, clearAuthSession, isTokenExpired, api, User } from "@/lib/api";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,14 +14,19 @@ export default function Header() {
   // Check active auth session
   useEffect(() => {
     let isMounted = true;
-    const token = getAuthToken();
-    const stored = getStoredUser();
 
-    if (token && stored) {
-      setUser(stored);
-    }
+    const syncSession = () => {
+      const token = getAuthToken();
+      const stored = getStoredUser();
 
-    if (token) {
+      if (!token || isTokenExpired(token) || !stored) {
+        clearAuthSession();
+        if (isMounted) setUser(null);
+        return;
+      }
+
+      if (isMounted) setUser(stored);
+
       api.auth
         .getMe()
         .then((res) => {
@@ -32,22 +37,27 @@ export default function Header() {
             }
           }
         })
-        .catch((err) => {
-          if (
-            err?.message?.includes("401") ||
-            err?.message?.toLowerCase().includes("unauthorized") ||
-            err?.message?.toLowerCase().includes("jwt")
-          ) {
-            clearAuthSession();
-            if (isMounted) setUser(null);
-          }
+        .catch(() => {
+          clearAuthSession();
+          if (isMounted) setUser(null);
         });
-    } else {
-      setUser(null);
+    };
+
+    syncSession();
+
+    window.addEventListener("auth:expired", handleAuthChange);
+    window.addEventListener("auth:change", handleAuthChange);
+    window.addEventListener("storage", handleAuthChange);
+
+    function handleAuthChange() {
+      syncSession();
     }
 
     return () => {
       isMounted = false;
+      window.removeEventListener("auth:expired", handleAuthChange);
+      window.removeEventListener("auth:change", handleAuthChange);
+      window.removeEventListener("storage", handleAuthChange);
     };
   }, []);
 

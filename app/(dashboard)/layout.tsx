@@ -6,12 +6,29 @@ import { DomainProvider, useDomain } from "@/context/DomainContext";
 import { IconMenu2, IconWorld } from "@tabler/icons-react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getAuthToken, isTokenExpired, clearAuthSession, api } from "@/lib/api";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const { currentDomain } = useDomain();
+
+  // Validate active auth session on dashboard mount & path change
+  useEffect(() => {
+    const token = getAuthToken();
+    if (!token || isTokenExpired(token)) {
+      clearAuthSession();
+      router.replace(`/auth/signin?redirect=${encodeURIComponent(pathname)}`);
+      return;
+    }
+
+    api.auth.getMe().catch(() => {
+      clearAuthSession();
+      router.replace(`/auth/signin?redirect=${encodeURIComponent(pathname)}`);
+    });
+  }, [pathname, router]);
 
   // Close drawer on path change or resize
   useEffect(() => {

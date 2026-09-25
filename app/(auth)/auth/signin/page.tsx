@@ -21,7 +21,9 @@ export default function SignInPage() {
 
     try {
       await api.auth.signIn(email, password);
-      router.push("/overview");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectUrl = searchParams.get("redirect") || "/overview";
+      router.push(redirectUrl);
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || "Sign in failed. Please check your credentials.");
     } finally {

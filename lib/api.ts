@@ -81,29 +81,68 @@ export interface CustomEventItem {
 }
 
 /**
+ * Check if a JWT token is expired (or malformed / missing)
+ */
+export function isTokenExpired(token: string | null | undefined): boolean {
+  if (!token || typeof token !== "string") return true;
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return true;
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+    const jsonPayload = decodeURIComponent(
+      atob(padded)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    const payload = JSON.parse(jsonPayload);
+    if (typeof payload.exp !== "number") return false;
+    // Expired if current time (in seconds) >= exp - 10s leeway
+    return Date.now() / 1000 >= payload.exp - 10;
+  } catch {
+    return true;
+  }
+}
+
+/**
  * Store auth session in localStorage and cookie (for Next.js middleware)
  */
 export function setAuthSession(token: string, user: User): void {
   if (typeof window !== "undefined") {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
-    document.cookie = `auth_token=${encodeURIComponent(token)}; path=/; max-age=2592000; SameSite=Lax`;
+    // 7 days cookie to match backend JWT 7d expiry
+    document.cookie = `auth_token=${encodeURIComponent(token)}; path=/; max-age=604800; SameSite=Lax`;
+    window.dispatchEvent(new Event("auth:change"));
   }
 }
 
 /**
- * Get stored auth token
+ * Get stored auth token (clears session and returns null if expired)
  */
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  if (isTokenExpired(token)) {
+    clearAuthSession();
+    return null;
+  }
+  return token;
 }
 
 /**
- * Get stored user profile
+ * Get stored user profile (clears session and returns null if token expired)
  */
 export function getStoredUser(): User | null {
   if (typeof window === "undefined") return null;
+  const token = localStorage.getItem("token");
+  if (!token || isTokenExpired(token)) {
+    clearAuthSession();
+    return null;
+  }
   const raw = localStorage.getItem("user");
   if (!raw) return null;
   try {
@@ -121,6 +160,24 @@ export function clearAuthSession(): void {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     document.cookie = "auth_token=; path=/; max-age=0; SameSite=Lax";
+    window.dispatchEvent(new Event("auth:expired"));
+    window.dispatchEvent(new Event("auth:change"));
+  }
+}
+
+function handleUnauthorizedRedirect() {
+  if (typeof window !== "undefined") {
+    const pathname = window.location.pathname;
+    const isDashboard =
+      pathname.startsWith("/overview") ||
+      pathname.startsWith("/visitors") ||
+      pathname.startsWith("/events") ||
+      pathname.startsWith("/domains") ||
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/dashboard");
+    if (isDashboard) {
+      window.location.href = `/auth/signin?redirect=${encodeURIComponent(pathname)}`;
+    }
   }
 }
 
@@ -132,12 +189,15 @@ async function fetchWithAuth<T>(
   options: RequestInit = {}
 ): Promise<T> {
   const token = getAuthToken();
-  const headers = new Headers(options.headers || {});
-
-  headers.set("Content-Type", "application/json");
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
+  if (!token) {
+    clearAuthSession();
+    handleUnauthorizedRedirect();
+    throw new Error("Session expired. Please sign in again.");
   }
+
+  const headers = new Headers(options.headers || {});
+  headers.set("Content-Type", "application/json");
+  headers.set("Authorization", `Bearer ${token}`);
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
@@ -147,6 +207,10 @@ async function fetchWithAuth<T>(
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      clearAuthSession();
+      handleUnauthorizedRedirect();
+    }
     const errorMsg = (data as { error?: string })?.error || `Request failed (${response.status})`;
     throw new Error(errorMsg);
   }
