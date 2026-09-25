@@ -77,12 +77,6 @@ Triangle Analytics is architected to exceed international privacy regulations ou
 
 ---
 
-## Sister Project
-
-- **[The Triangle](https://github.com/wisdomnova/the-triangle)**: Qualitative product intelligence engine and experience compiler.
-
----
-
 ## License
 
 Private and Proprietary. All rights reserved.
