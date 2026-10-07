@@ -83,7 +83,7 @@ HTML embed:
 
 ```html
 <a href="https://the-triangle-analytics.web.app">
-  <img src="https://the-triangle-analytics.web.app/badge.svg" alt="Analytics by Triangle" width="156" height="28" />
+  <img src="https://the-triangle-analytics.web.app/badge.svg" alt="Analytics by Triangle" width="152" height="28" />
 </a>
 ```
 
